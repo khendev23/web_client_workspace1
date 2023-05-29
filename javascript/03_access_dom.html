@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 태그에 접근하기</title>
+</head>
+<body>
+    <h1>DOM 태그에 접근하기</h1> 
+    <!-- 
+        DOM Document Object Model에 등록된 태그요소 찾기
+        - document객체 하위에 tree 구조(계층)로 등록이 되어있다.
+        - id/class/tag명/name속성 등으로 가져올 수 있다.
+        - css선택자를 사용해 가져올 수 있다.
+    -->
+    <!-- div.wrapper>p#p$.group{안녕}*5 -->
+    <div class="wrapper">
+        <p id="p1" class="group1">안녕1</p>
+        <p id="p2" class="group1">안녕2</p>
+        <p id="p3" class="group2">안녕3</p>
+        <p id="p4" class="group2">안녕4</p>
+        <p id="p5" class="group1 group2">안녕5</p>
+    </div>
+    <button onclick="test1();">id</button>
+    <button onclick="test2();">tag</button>
+    <button onclick="test3();">class</button>
+    <script>
+        /**
+         * document.getElementsByClassName()
+         */
+        function test3() {
+            const tags = document.getElementsByClassName("group1");
+            console.log(tags);
+            // 요소 font-size 32px (css 속성값은 모두 문자열이다.)
+            for(let i=0; i<tags.length; i++) {
+                const tag=tags[i];
+                tag.style.fontSize = "32px";
+            }
+        }
+        /**
+         * document.getElementsByTagName()
+         */
+        function test2() {
+            const tags = document.getElementsByTagName("p");
+            console.log(tags);
+
+            for(let i=0; i<tags.length; i++) {
+                console.log(tags[i]);
+                tags[i].innerHTML = "Hello" + (i+1);
+            }
+        }
+        /**
+         * document.getElementById()
+         */
+        function test1()  {
+            /**
+             * let 변수 / const 상수
+             * 기본으로 const를 쓰고 변하는 것에 let을 쓰는게 안전하다.
+             */
+            const tag = document.getElementById("p1");
+            console.log(tag);
+            console.dir(tag); // 객체를 계층구조로 볼때
+
+            console.log(tag.innerHTML); // getter
+            tag.innerHTML = "Hello1"; // setter
+
+            tag.style.backgroundColor = "springgreen";
+            tag.style.color = "white";
+        }
+    </script>
+
+    <form action="">
+        <fieldset>
+            <legend>취미</legend>
+            <!-- (input:checkbox[name=hobby]#hobby$+lavel[for=hobby$])*5 -->
+            <input type="checkbox" name="hobby" id="hobby1" value="종이접기"><lavel for="hobby1">종이접기</lavel>
+            <input type="checkbox" name="hobby" id="hobby2" value="영화"><lavel for="hobby2">영화</lavel>
+            <input type="checkbox" name="hobby" id="hobby3" value="코딩"><lavel for="hobby3">코딩</lavel>
+            <input type="checkbox" name="hobby" id="hobby4" value="뜨개질"><lavel for="hobby4">뜨개질</lavel>
+            <input type="checkbox" name="hobby" id="hobby5" value="닌텐도"><lavel for="hobby5">닌텐도</lavel>
+        </fieldset>
+        <!-- input:checkbox#hobbyAll+lavel[for=hobbyAll] -->
+        <input type="checkbox" id="hobbyAll" onchange="test5();"><lavel for="hobbyAll">전체선택/해제</lavel>
+    </form>
+    <button onclick="test4();">확인</button>
+    <script>
+        /**
+         * 체크박스 전체선택 / 해제처리
+         */
+        function test5() {
+            const checkAll = document.getElementById("hobbyAll");
+            console.log(hobbyAll.checked);
+
+            const hobbies = document.getElementsByName("hobby");
+
+            for(let i=0; i<hobbies.length; i++) {
+                hobbies[i].checked = hobbyAll.checked;
+            }
+        }
+        /**
+         * document.getElementsByName()
+         */
+        function test4() {
+            const tags = document.getElementsByName("hobby");
+            console.log(tags);
+
+            for(let i=0; i<tags.length; i++) {
+                // console.log(tags[i].checked, tags[i].value);
+                if (tags[i].checked) {
+                    console.log(tags[i].value + "를 선택했습니다.");
+                    console.log(`${tags[i].value}를 선택했습니다.`); // template string ES6
+                }
+            }
+        }
+    </script>
+
+    <form action="javascript:test6();">
+        <fieldset>
+            <legend>회원정보</legend>
+            <!-- label[for=username]+input:text[name=username]#username -->
+            <label for="username">아이디 : </label>
+            <input type="text" name="username" id="username">
+            <br>
+            <label for="email">이메일 : </label>
+            <input type="email" name="email" id="email">
+        </fieldset>
+        <button type="submit">제출</button>
+    </form>
+    <script>
+        /**
+         * 회원정보 폼 제출시 사용자 입력값 (아이디/이메일) 경고창에 출력하기
+         * 
+         * ById를 제외한 것들은 배열로 받기 때문에 사용에 주의해야한다.
+         * 그런데.. const로 받아오는 것들을 다 주석처리해도 결과가 나온다.
+         * - 왜? 
+         * - 아이디 이름의 변수를 통해 태그객체 접근이 가능하다. (변수명 충돌 주의)
+         */
+        function test6() {
+            // const username = document.getElementById("username");
+            // const email = document.getElementById("email");
+
+            // const username = document.getElementsByName("username")[0];
+            // const email = document.getElementsByName("email")[0];
+            
+            console.log(username, email);
+            console.log(username.value, email.value);
+
+            alert(`아이디 : ${username.value}
+이메일 : ${email.value}`);
+        }
+    </script>
+
+    <!-- fieldset>legend+input:range -->
+    <fieldset>
+        <legend>점수</legend>
+        <input type="range" name="score" id="score" 
+        min="0" max="100" step="1" value="0" 
+        oninput="test7();">
+        <span id="scoreVal">0</span>
+    </fieldset>
+    <script>
+        /**
+         * #score의 값이 변경될 때마다 #scoreVal의 점수를 동일하게 변경하기
+         * 속성값 찾는법 : 개발자도구 - console - console.dir()
+         */
+        function test7() {
+        
+            const scoreVal = document.getElementById("scoreVal");
+            const score = document.getElementById("score");
+            console.log(scoreVal.innerHTML, score.value);
+            scoreVal.innerHTML = score.value;
+        }
+    </script>
+    <!-- ul>(li.cls>lorem)*3 -->
+    <ul>
+        <li id = "my-li" class="cls">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae ratione hic praesentium possimus recusandae? Velit, aspernatur dicta enim veritatis totam, laudantium fugit eaque, corrupti saepe in officiis perspiciatis eligendi perferendis.</li>
+        <li class="cls">Necessitatibus harum, quidem praesentium fugit tempore nemo, soluta aliquid laboriosam nulla at et enim in doloribus placeat dolore magni expedita dignissimos consequatur blanditiis omnis reiciendis quam dolorem? Ipsum, odit rem.</li>
+        <li class="cls">Quasi, quam eum? Magni laboriosam alias, voluptatum deserunt rem maxime temporibus quo cumque aperiam minima sapiente, perspiciatis asperiores eius hic obcaecati, neque eligendi debitis vitae? Nam ipsa aliquid facilis quas.</li>
+    </ul>
+    <button onclick="test8();">querySelector</button>
+    <button onclick="test9();">querySelectorAll</button>
+    <script>
+        /**
+         * document.querySelector(css선택자)
+         * - 선택자에 부합하는 첫번째 요소를 반환
+         */
+        function test8() {
+            // const tag = document.querySelector("#my-li");
+            const tag = document.querySelector(".cls");
+            console.log(tag);
+            tag.style.color = "royalblue";
+        }
+        /**
+         * document.querySelectorAll(css선택자)
+         * - 선택자에 부합하는 모든 요소를 배열에 담아 반환
+         */
+        function test9() {
+            const tags = document.querySelectorAll(".cls");
+            console.log(tags);
+            for(let i=0; i<tags.length; i++) {
+                tags[i].style.color = "white";
+                tags[i].style.backgroundColor = "seagreen";
+                
+            }
+        }
+    </script>
+
+
+</body>
+</html>

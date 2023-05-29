@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>형변환</title>
+</head>
+<body>
+    <h1>형변환</h1>
+    <button onclick="test1();">산술/비교연산</button>
+    <button onclick="test2();">숫자로 형변환</button>
+
+    <fieldset>
+        <legend>급여계산기</legend>
+        <input type="number" name="salary" id="salary" placeholder="급여">
+        <br>
+        <input type="number" name="bonus" id="bonus" placeholder="보너스">
+        <br>
+        <input type="button" value="계산" onclick="test3();">
+    </fieldset>
+
+    <button onclick="test4();">짧은 조건문</button>
+    <div id="abc"></div>
+    <div id="kkk"></div>
+    <script>
+        /**
+         * 짧은 조건문
+         * - 조건식 && (참일경우 실행문)
+         * - 조건식 || (거짓일 경우 실행문)
+         */
+        function test4() {
+            const n = prompt('아무 숫자나 입력하세요.', '0');
+
+            // a && b : a가 참인 경우만 b를 검사한다.
+            // a || b : a가 거짓인 경우만 b를 검사한다.
+
+            // (n % 2 == 0) && alert("짝수를 입력하셨습니다.");
+            // (n % 2 == 1) || alert("짝수를 입력하셨습니다.");
+
+            console.log(document.querySelector("#abc"), Boolean(document.querySelector("#abc")))
+            document.querySelector("#abc") && (document.querySelector("#abc").innerHTML = "Happy Happy");
+            
+            // const v = a || b; // a가 존재하면 a를 대입, a가 존재하지 않으면 b를 대입
+            const k = (document.querySelector("#kkk") || 123);
+            console.log(k)
+
+        }
+
+        /**
+         * 계산 버튼을 누르면 급여금액 + 보너스 금액을 합쳐서 금여총액을 경고창에 출력하세요
+         */
+
+        function test3() {
+            const total = Number(salary.value) + Number(bonus.value);
+            alert(`총액 : ${total.toLocaleString()}원`) // 금액에 ,표시
+        }
+
+        /**
+         * 숫자로 형변환
+         * - Number() : number 변환불가한 문자가 하나라도 있으면 NaN반환
+         * - parseInt() : 정수 변환불가한 문자 전까지는 변환
+         * - parseFloat() : 실수 변환불가한 문자전까지는 변환
+         */
+        function test2() {
+            const n = "123.456";
+            console.log(Number(n) + 1);
+            console.log(parseInt(n) + 1);
+            console.log(parseFloat(n) + 1);
+
+            const price = "3000.5원";
+            // const price = "$3000.5";
+            console.log(Number(price));
+            console.log(parseInt(price));
+            console.log(parseFloat(price));
+
+            // 숫자가 아닌 문자가 섞여있는 경우
+            const won = "1,000,000원";
+
+            // const m = parseInt(won.replaceAll(",", "")); // 숫자로 변환
+            const m = parseInt(won.replace(/[^0-9.]/g, "")); // 숫자로 변환
+
+            console.log(m*2);
+        }
+
+        /**
+         * 산술연산시 형변환
+         * +
+         * -
+         * *
+         * /
+         * %
+         * 
+         */
+        function test1() {
+            console.log(3 + "3", typeof(3+"3")); // 33 string
+            console.log(3-"3", typeof(3-"3")); // 0 - number
+            console.log(3*"3", typeof(3*"3")); // 9 - number
+            console.log(3/"3", typeof(3/"3")); // 1 - number
+            console.log(3%"3", typeof(3%"3")); // 0 - number
+
+            console.log(3-"a", typeof(3-"a")); // NaN(Not a Number) - number
+            console.log("a"-"a"); // 한번 NaN이 나오면 어떻게 해도 NaN이 나온다.
+
+            console.log(3 == "3"); // true (타입은 다르지만 값이 같으므로)
+            console.log(3 != "3"); // false (타입은 다르지만 값이 같으므로)
+
+            // 엄격비교연산자(타입/값을 모두 비교)
+            console.log(3 === "3"); // false (타입/값이 모두 같아야 true)
+            console.log(3 !== "3"); // true (타입/값 중 하나라도 다르면 true)
+        }
+    </script>
+
+    <button onclick="test5();">논리형으로 형변환</button>
+    <script>
+        /**
+         * 논리형으로 형변환
+         * - 값이 있는 것은 true
+         * - "abc", 123, -45, {}, []
+         * - 값이 없는 것은 false
+         * - 0, 0.0, '', "", undefined, null, NaN
+         */
+        function test5() {
+            console.log(Boolean("abc"), !!"abc");
+            console.log(Boolean(' '), !!' ');
+            console.log(Boolean(123), !!123);
+            console.log(Boolean(-123), !!-123);
+            console.log(Boolean({}), !!{});
+            console.log(Boolean([]), !![]);
+
+            console.log(Boolean(0), !!0);
+            console.log(Boolean(0.0), !!0.0);
+            console.log(Boolean(''), !!'');
+            console.log(Boolean(undefined), !!undefined);
+            console.log(Boolean(null), !!null);
+            console.log(Boolean(NaN), !!NaN);
+
+            // #xyz태그가 존재하지 않는다면, #xyz를 생성해주세요.
+            // document.body.innerHTML 속성 추가.
+            const a = document.querySelector("#xyz") || (document.body.innerHTML += '<h3 id="xyz">XYZ</h3>');
+        }
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>경계영역</title>
+</head>
+<body>
+    <h1>경계영역</h1>
+    <div class="box"></div>
+    <style>
+        .box {
+            width: 300px;
+            height: 300px;
+            /* border: 2px solid red; */
+            border-top: 2px solid red;
+            border-right: 3px dashed springgreen;
+            border-bottom: 4px solid blue;
+            border-left: 5px dotted blueviolet;
+        }
+    </style>
+
+    <h2>경계 둥글림 처리</h2>
+    <div class="square"></div>
+    <style>
+        .square {
+            width: 200px;
+            height: 200px;
+            border: 3px solid blue;
+            /* 시계 방향 */
+            /* top-left top-right bottom-right bottom-left */
+            /* border-radius: 10px 20px 30px 40px;  */
+            border-radius: 50%;
+        }
+    </style>
+</body>
+</html>
