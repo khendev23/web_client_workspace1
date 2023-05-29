@@ -9,9 +9,6 @@
 <body>
 
 <h4>@실습문제1 : 눈코딩</h4>
-=======
-    <h4>@실습문제1 : 눈코딩</h4>
->>>>>>> 773eef509df9d73f10f18250be17d810f8807ccd
 	<button onclick="aoo()();">aoo</button>
 	<button onclick="boo()();">boo1</button>
 	<button onclick="boo()(999);">boo2</button>
@@ -56,13 +53,25 @@
 	<script>
 
 
+	// const mkAddFunc = () => {
+	// 	let total = 0;
+	// 	return () => {
+	// 		total += parseInt(myadder.value);
+	// 		result.innerHTML = total;
+	// 	};
+	// };
+
+	// 쌤코드
 	const mkAddFunc = () => {
-		let total = 0;
+		let sum = 0;
 		return () => {
-			total += parseInt(myadder.value);
-			result.innerHTML = total;
-		};
+			if(isNaN(myadder.value)) return;	
+			//input타입과 상관없이 value의 타입은 string임.
+			sum += Number(myadder.value);
+			result.innerHTML = sum;
+		};	
 	};
+
 	const addFunc = mkAddFunc();
 
 	</script>

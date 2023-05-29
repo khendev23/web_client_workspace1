@@ -13,8 +13,8 @@
         transition 두상태를 부드럽게 연결해서 동영상 효과를 만듬.
         animation 여러개의 상태를 부드럽게 연결해서 동영상 효과를 만듬.
     -->
-     <!-- div.wrapper>(img+hr)*5 -->
-     <div class="wrapper">
+    <!-- div.wrapper>(img+hr)*5 -->
+    <div class="wrapper">
         <img src="../sample/image/flower1.PNG" alt="">
         <hr>
         <img src="../sample/image/flower2.PNG" alt="">
@@ -27,9 +27,9 @@
         <img src="../sample/image/flower5.PNG" alt="">
         </div>
         <hr>
-     </div>
+    </div>
 
-     <style>
+    <style>
         .wrapper {
             text-align: center;
         }
@@ -51,15 +51,15 @@
             transform: rotate(-315deg);
         }
         .wrapper img:nth-of-type(4){
-         transition-duration: 1s;
-         transition-delay: .5s;
-         transition-property: all; /* transition 적용할 속성 */
-         transition-timing-function: ease; /* ease ease-in ease-in-out ease-out linear */
+            transition-duration: 1s;
+            transition-delay: .5s;
+            transition-property: all; /* transition 적용할 속성 */
+            transition-timing-function: ease; /* ease ease-in ease-in-out ease-out linear */
         /* transition : property duration timing-function delay */
         transition : all 1s aese .5s;
         }
         .wrapper img:nth-of-type(4):hover {
-         transform:  scale(1.5, 1.5);
+            transform:  scale(1.5, 1.5);
         }
         
         .img-wrapper {
@@ -75,15 +75,15 @@
         .img-wrapper img:hover {
             transform: scale(1.2 , 1.2);
         }
-     </style>
+    </style>
 
-     <h2>card</h2>
-     <div class="card">
+    <h2>card</h2>
+    <div class="card">
         <h1>Lorem Ipsum</h1>
         <h2 class="text-transition">Lorem ipsum dolor sit amet consectetur adipisicing elit. </h2>
         <p class="text-transition">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium nesciunt amet laborum est qui minima tenetur, consequuntur doloremque sed fuga quia ullam dolorum obcaecati. Quaerat voluptatibus dolor eos nostrum velit?</p>
-     </div>
-     <style>
+    </div>
+    <style>
         .card {
             width: 380px;
             height: 380px;
@@ -121,8 +121,8 @@
         .card:hover {
             box-shadow: 0 35px 77px -17px rgba(0, 0, 0, .8);
         }
-     </style>
+    </style>
 
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    
 </body>
 </html>
