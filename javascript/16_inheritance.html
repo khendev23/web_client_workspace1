@@ -20,6 +20,18 @@
          */
         const test4 = () => {
             console.log(Object.create(Book.prototype)); // Book.prototype을 부모로 하는 객체
+            
+            const parent = {
+                name : 'Parent',
+                say() {
+                    console.log(`I am ${this.name}`);
+                }
+            };
+            const child = Object.create(parent);
+            child.name = 'Child';
+            console.log(child.name);
+            child.say();
+        
         }
 
         /**
