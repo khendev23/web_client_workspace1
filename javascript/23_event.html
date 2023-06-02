@@ -204,7 +204,9 @@
 
             // 아이디 검사
             if(!validateUserId()) {
-                e.preventDefault();
+                e.preventDefault(); 
+                // return false와 동일하나, 사용권장 X / 어디선가 보면 e.preventDefault를 대체했구나 생각하면 된다.
+                // addEventListener 사용할 때는 무조건 e.preventDefault로 사용해야한다.
                 // userId.focus(); // 아이디 인풋란에 바로 포커스
                 userId.select(); // 입력값 블럭처리 + 포커스
             }

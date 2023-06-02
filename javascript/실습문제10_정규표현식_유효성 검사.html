@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>유효성검사</title>
+    <style>
+    table#enroll{
+        border: 1px solid;
+        border-spacing:10px;
+        width: 500px;
+        margin: 0 auto;
+    }
+    table#enroll th{
+        text-align:right;
+    }
+    table#enroll td.btn-wrapper{
+        text-align: center;
+    }
+    .phone {
+        width:30px;
+    }
+    span.req{
+        color:red;
+    }
+    .short{
+        width:50px;
+    }
+    .err {
+        font-size: 12px;
+        color: red;
+        display: none;
+    }
+    </style>
+</head>
+<body>
+    <h3>회원가입 유효성검사</h3>
+	<p>회원가입시 각 필드마다 유효성 검사를 하여 처리 할 수 있도록 작성하세요.</p>
+    <ol>
+        <li>ID는 영어소문자,숫자만 가능해야함(4~12자리,소문자로 시작해야함)</li>
+        <li>비밀번호는 숫자/문자/특수문자(*!&) 포함 형태의 8~15자리</li>
+        <li>비밀번호와 비밀번호확인은 같아야 함</li>
+        <li>이름은 무조건 한글만 가능해야 함(최소2글자 이상)</li>
+        <li>주민번호는 자릿수6자리,7자리이고, 모두 숫자여야함.</li>
+        <li>이메일은 @가 포함 되어야 함(@앞에가 영문자,숫자로 4~12글자 )</li>
+        <li>전화번호
+            <ol>
+                <li>첫번째 필드는 두자리수 이상 입력해야 함.</li>
+                <li>두번째 필드는 3자리 이상 입력 해야 함</li>
+                <li>세번째 필드는 무조건 4자리 입력 해야함</li>
+                <li>(모두 숫자만 가능 해야함)</li>
+            </ol>
+        </li>
+    </ol>
+    <form action="javascript:alert('제출성공');" name="memberFrm">
+        <table id="enroll">
+            <tr>
+                <th>아이디<span class="req">*</span></th>
+                <td>
+                    <input type="text" name="userId" id="userId" >
+                    <span class="err" id="idErr1"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>비밀번호<span class="req">*</span></th>
+                <td>
+                    <input type="password" name="pwd" id="pwd" >
+                    <span class="err" id="idErr2"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>비밀번호확인</th>
+                <td>
+                    <input type="password" id="pwdCheck">
+                    <span class="err" id="idErr3"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>이름<span class="req">*</span></th>
+                <td>
+                    <input type="text" name="userName" id="userName" >
+                    <span class="err" id="idErr4"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>주민번호<span class="req">*</span></th>
+                <td>
+                    <input type="text" name="ssn1" id="ssn1" class="short" >-
+                    <input type="password" name="ssn2" id="ssn2" class="short" >
+                    <span class="err" id="idErr5"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>이메일<span class="req">*</span></th>
+                <td>
+                    <input type="email" name="email" id="email" >
+                    <span class="err" id="idErr6"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>전화번호<span class="req">*</span></th>
+                <td>
+                    <input type="text" name="tel1" id="tel1" class="phone" >-
+                    <input type="text" name="tel2" id="tel2" class="phone" >-
+                    <input type="text" name="tel3" id="tel3" class="phone" >
+                    <span class="err" id="idErr7"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>직업</th>
+                <td>
+                    <select name="job" id="job">
+                        <option value="공무원">공무원</option>
+                        <option value="개발자">개발자</option>
+                        <option value="무직">무직</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>취미</th>
+                <td>
+                    <input type="checkbox" name="hobby" id="hobby1" value="reading">
+                    <label for="hobby1">독서</label>
+                    <input type="checkbox" name="hobby" id="hobby2" value="development">
+                    <label for="hobby2">개발</label>
+                    <input type="checkbox" name="hobby" id="hobby3" value="exercise">
+                    <label for="hobby3">운동</label>
+                    <input type="checkbox" name="hobby" id="hobby4" value="game">
+                    <label for="hobby4">게임</label>
+                    <input type="checkbox" name="hobby" id="hobby5" value="movie">
+                    <label for="hobby5">영화</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="btn-wrapper">
+                    <input type="submit" value="제출">&nbsp;
+                    <input type="reset" value="초기화">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script>
+        //1.아이디검사
+        //첫글자는 반드시 영소문자로 이루어지고, 
+        //숫자가 하나이상 포함되어야함.
+        //아이디의 길이는 4~12글자사이
+        const validateUserId = () => {
+            const userId = document.querySelector("#userId");
+            const value = userId.value;
+
+            const idValidations = [
+                {re : /^[a-z]/, msg : '첫글자는 반드시 영소문자로 이루어져야합니다.'},
+                {re : /\d/, msg : '숫자를 하나이상 포함해야합니다.'},
+                {re : /^.{4,12}$/, msg : '아이디 길이는 4~12자리 입니다.'},
+            ];
+    
+            const result = idValidations.every(({re, msg}) => {
+                if(!re.test(value)) {
+                    idErr1.innerHTML = msg;
+                    userId.nextElementSibling.style.display = 'inline';
+                    return false; // forEach용 break
+                }
+                return true;
+            });
+    
+            if(result || value=="")
+                userId.nextElementSibling.style.display = 'none';
+        };
+
+        userId.oninput = validateUserId;
+
+        //2.비밀번호 확인 검사
+        //숫자/문자/특수문자 포함 형태의 8~15자리 이내의 암호 정규식 
+        const validateUserPassword = () => {
+            const userPassword = document.querySelector("#pwd");
+            const value = userPassword.value;
+
+            const pwdValidations = [
+                {re : /\w/, msg : '문자를 하나이상 포함해야합니다.'},
+                {re : /\d/, msg : '숫자를 하나이상 포함해야합니다.'},
+                {re : /[!@#$%^&*]/, msg : '특수문자를 하나이상 포함해야합니다.'},
+                {re : /^.{8,15}$/, msg : '비밀번호 길이는 8~15자리 입니다.'},
+            ];
+
+            const result = pwdValidations.every(({re, msg}) => {
+                if(!re.test(value)) {
+                    idErr2.innerHTML = msg;
+                    userPassword.nextElementSibling.style.display = 'inline';
+                    return false; // forEach용 break
+                }
+                return true;
+            });
+    
+            if(result || value=="")
+                userPassword.nextElementSibling.style.display = 'none';
+
+        };
+
+        pwd.oninput = validateUserPassword;
+
+        //비밀번호일치여부 검사
+        const validateUserPasswordCheck = () => {
+            const userPasswordCheck = document.querySelector("#pwdCheck");
+            const userPassword = document.querySelector("#pwd");
+            const value = userPasswordCheck.value;
+
+            if(value !== userPassword.value) {
+                idErr3.innerHTML = '비밀번호가 일치하지 않습니다.';
+                userPasswordCheck.nextElementSibling.style.display = 'inline';
+            } else {
+                userPasswordCheck.nextElementSibling.style.display = 'none';
+            }
+
+        };
+
+        pwdCheck.oninput = validateUserPasswordCheck;
+
+        //3.이름검사 : 한글2글자 이상만 허용.
+        const validateUserName = () => {
+            const userName = document.querySelector("#userName");
+            const value = userName.value;
+
+            const nameValidations = [
+                {re : /^.{2,}$/, msg : '이름 길이는 2글자 이상 입니다.'},
+                {re : /[가-힣]/, msg : '한글만 입력가능합니다.'},
+            ];
+
+            const result = nameValidations.every(({re, msg}) => {
+                if(!re.test(value)) {
+                    idErr4.innerHTML = msg;
+                    userName.nextElementSibling.style.display = 'inline';
+                    return false; // forEach용 break
+                }
+                return true;
+            });
+    
+            if(result || value=="")
+                userName.nextElementSibling.style.display = 'none';
+        };
+
+        userName.oninput = validateUserName;
+
+        //4.주민번호체크
+        const validateSsn1 = () => {
+            const ssn1 = document.querySelector("#ssn1");
+            const ssn1Value = ssn1.value;
+
+            const ssn1Validations = [
+                {re : /\d/, msg : '주민번호 앞자리 : 숫자만 입력가능합니다.'},
+                {re : /^.{6}$/, msg : '주민번호 앞자리 : 6글자 입니다.'},
+            ];
+
+            const result = ssn1Validations.every(({re, msg}) => {
+                if(!re.test(ssn1Value)) {
+                    idErr5.innerHTML = msg;
+                    idErr5.style.display = 'inline';
+                    return false;
+                }
+                return true;
+            });
+
+            if(result || ssn1Value=="") {
+                idErr5.style.display = 'none';
+            }
+
+        };
+
+        ssn1.oninput = validateSsn1;
+
+        const validateSsn2 = () => {
+            const ssn2 = document.querySelector("#ssn2");
+            const ssn2Value = ssn2.value;
+
+            const ssn2Validations = [
+                {re : /\d/, msg : '주민번호 뒷자리 : 숫자만 입력가능합니다.'},
+                {re : /^.{7}$/, msg : '주민번호 뒷자리 : 7글자 입니다.'},
+            ];
+
+            const result = ssn2Validations.every(({re, msg}) => {
+                if(!re.test(ssn2Value)) {
+                    idErr5.innerHTML = msg;
+                    idErr5.style.display = 'inline';
+                    return false;
+                }
+                return true;
+            });
+
+            if(result || ssn2Value=="") {
+                idErr5.style.display = 'none';
+            }
+
+        };
+
+        ssn2.oninput = validateSsn2;
+
+
+        //5.이메일 검사
+        const validateEmail = () => {
+            const email = document.querySelector("#email");
+            const value = email.value;
+
+            const emailValidations = [
+                {re : /^[a-z]/, msg : '영문자로 시작해야합니다.'},
+                {re : /^.{4,12}@/, msg : '@ 앞 글자는 4~12 자리입니다.'},
+                {re : /\d/, msg : '숫자 필수입니다.'},
+                {re : /@/, msg : '@ 필수입니다.'},
+            ];
+
+            const result = emailValidations.every(({re, msg}) => {
+                if(!re.test(value)) {
+                    idErr6.innerHTML = msg;
+                    email.nextElementSibling.style.display = 'inline';
+                    return false; // forEach용 break
+                }
+                return true;
+            });
+    
+            if(result || value=="")
+                email.nextElementSibling.style.display = 'none';
+        };
+
+        email.oninput = validateEmail;
+    
+        //6. 전화번호 검사
+        const validateTel1 = () => {
+
+            const tel1 = document.querySelector("#tel1");
+            const tel1Value = tel1.value;
+
+            const telValidations = [
+                {re1 : /\d/, msg : '숫자 필수입니다.'},
+                {re1 : /^.{2,}$/, msg : '첫번째 필드 : 두 자리수 이상 입력하세요'},
+                {re2 : /\d/, msg : '숫자 필수입니다.'},
+                {re2 : /^.{3,}$/, msg : '두번째 필드 : 3자리 이상 입력하세요'},
+                {re3 : /\d/, msg : '숫자 필수입니다.'},
+                {re3 : /^.{4}$/, msg : '세번째 필드 : 4자리만 입력가능합니다.'},
+            ];
+
+            const result1 = telValidations.every(({re1, msg}) => {
+                if(!re1.test(tel1Value)) {
+                    idErr7.innerHTML = msg;
+                    idErr7.style.display = 'inline';
+                    return false; // forEach용 break
+                }
+                return true;
+            });
+        
+            if(result1 || tel1Value=="") {
+                idErr7.style.display = 'none';
+            };
+            
+        };
+
+        const validateTel2 = () => {
+
+            const tel2 = document.querySelector("#tel2");
+            const tel2Value = tel2.value;
+
+            const telValidations = [
+                {re2 : /\d/, msg : '숫자 필수입니다.'},
+                {re2 : /^.{3,}$/, msg : '두번째 필드 : 3자리 이상 입력하세요'},
+            ];
+
+            const result2 = telValidations.every(({re2, msg}) => {
+                if(!re2.test(tel2Value)) {
+                    idErr7.innerHTML = msg;
+                    idErr7.style.display = 'inline';
+                    return false; // forEach용 break
+                }
+                return true;
+            });
+
+            if(result2 || tel2Value=="") {
+                idErr7.style.display = 'none';
+            };
+
+        };
+
+        const validateTel3 = () => {
+
+                        const tel3 = document.querySelector("#tel3");
+            const tel3Value = tel3.value;
+
+            const telValidations = [
+                {re3 : /\d/, msg : '숫자 필수입니다.'},
+                {re3 : /^.{4}$/, msg : '세번째 필드 : 4자리만 입력가능합니다.'},
+            ];
+
+            const result3 = telValidations.every(({re3, msg}) => {
+                if(!re3.test(tel3Value)) {
+                    idErr7.innerHTML = msg;
+                    idErr7.style.display = 'inline';
+                    return false; // forEach용 break
+                }
+                return true;
+            });
+
+            if(result3 || tel3Value=="") {
+                idErr7.style.display = 'none';
+            };
+
+
+        };
+
+        tel1.oninput = validateTel1;
+        tel2.oninput = validateTel2;
+        tel3.oninput = validateTel3;
+
+        
+        document.memberFrm.onsubmit = function(){
+        
+        
+
+
+
+            return true;
+        }
+    
+    </script>
+</body>
+</html>
