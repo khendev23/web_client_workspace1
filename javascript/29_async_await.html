@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async | await</title>
+</head>
+<body>
+    <h1>async | await</h1>
+    <button id="btn1">async</button>
+    <button id="btn2">await</button>
+    <button id="btn3">DOM</button>
+    <button id="btn4">TimerApi</button>
+    <div class="box"></div>
+    <style>
+        .box {
+            border: 1px solid black;
+            width: 100px;
+            height: 100px;
+            margin: 30px 0 10px;
+        }
+    </style>
+    <script>
+        /**
+         * 배경색 변경
+         */
+        btn4.onclick = async () => {
+
+            await changeBGColor("red");
+            await changeBGColor("orange");
+            await changeBGColor("yellow");
+            await changeBGColor("green");
+            await changeBGColor("blue");
+        };
+
+        const changeBGColor = (color) => new Promise((resolve) => {
+            document.querySelector(".box").style.backgroundColor = color;
+            setTimeout(()=>resolve(), 1000);
+        })
+        /**
+         * DOM
+         */
+        btn3.onclick = async () => {
+            await loadScript('js/func.js')
+            abc();
+        }
+
+        const loadScript = (src) => new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = () => resolve();
+            document.head.append(script);
+        });
+
+        /**
+         * await Promise-then구문을 세련되게 작성할 수 있는 문법
+         * - 반드시 async함수 안에서만 사용가능
+         * - Promise가 이행될 때까지 기다렸다가 Promise의 result값을 반환
+         * - 생산코드내에 resolve()코드를 호출까지 기다린다.
+         */
+        btn2.onclick = async () => {
+            // new Promise((resolve) => {
+            //     setTimeout(() => resolve(123), 1000);
+            // })
+            // .then((result) => console.log(result));
+            
+            const result = await new Promise((resolve) => {
+                setTimeout(() => resolve(123), 1000);
+            })
+            console.log(result);
+        }
+
+        /**
+         * async 일반함수의 프라미스화를 지원하는 문법
+         * - 일반함수가 프로미스를 반환한 것 같이 사용가능
+         */
+        btn1.onclick = () => {
+            const promise = foo();
+            console.log(promise); // Promise {<fulfilled>: 100}
+            
+            promise.then((result) => console.log(result));
+        };
+
+        const foo = async () => 100;
+        // const foo = () => new Promise((resolve) => resolve(100));
+
+    </script>
+
+
+</body>
+</html>
