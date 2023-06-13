@@ -16,6 +16,11 @@
             const $contentVal = $("[name=content]").val();
             const $ownerVal = $("[name=owner]").val();
 
+            $("table").append($("<tr></tr>"));
+            $("table tr:last").append($("<td></td>").html($titleVal));
+            $("table tr:last").append($("<td></td>").html($contentVal));
+            $("table tr:last").append($("<td></td>").html($ownerVal));
+            
             
         }
         </script>
@@ -35,10 +40,10 @@
     <h2>Method2</h2>
     <script>
         function addFile(){
-
+            $("div").append($('<br><input type="file">'));
         }
         function delFile(){
-
+            $("div br:last, [type=file]:last").not($("[name=f0]")).remove();
         }
         </script>
     
